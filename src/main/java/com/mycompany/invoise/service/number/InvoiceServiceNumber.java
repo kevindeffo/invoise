@@ -5,21 +5,27 @@ import com.mycompany.invoise.repository.InvoiceRepositoryInterface;
 import com.mycompany.invoise.service.InvoiceServiceInterface;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 //@Service
 public class InvoiceServiceNumber implements InvoiceServiceInterface {
     private static long lastNumber;
-    private InvoiceRepositoryInterface repository;
+    private InvoiceRepositoryInterface invoiceRepository;
 
+    @Override
+    public List<Invoice> getInvoiceList() {
+        return invoiceRepository.list();
+    }
     public InvoiceRepositoryInterface getRepository() {
-        return repository;
+        return invoiceRepository;
     }
 
     public void setInvoiceRepository(InvoiceRepositoryInterface invoiceRepository) {
-        this.repository = invoiceRepository;
+        this.invoiceRepository = invoiceRepository;
     }
 
     public void createInvoice(Invoice invoice){
         invoice.setNumber(String.valueOf(++lastNumber));
-        repository.create(invoice);
+        invoiceRepository.create(invoice);
     }
 }

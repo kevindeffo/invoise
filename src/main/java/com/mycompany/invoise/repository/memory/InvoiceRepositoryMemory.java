@@ -14,4 +14,9 @@ public class InvoiceRepositoryMemory implements InvoiceRepositoryInterface {
         invoices.add(invoice);
         System.out.println("invoice added with number "+invoice.getNumber()+" for customer "+ invoice.getCustomerName());
     }
+
+    @Override
+    public List<Invoice> list() {
+        return null;
+    }
 }
