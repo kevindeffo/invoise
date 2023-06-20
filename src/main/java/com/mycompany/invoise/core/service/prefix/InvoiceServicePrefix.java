@@ -1,15 +1,16 @@
-package com.mycompany.invoise.service.prefix;
+package com.mycompany.invoise.core.service.prefix;
 
-import com.mycompany.invoise.entity.Invoice;
-import com.mycompany.invoise.repository.InvoiceRepositoryInterface;
-import com.mycompany.invoise.service.InvoiceServiceInterface;
+import com.mycompany.invoise.core.entity.Invoice;
+import com.mycompany.invoise.core.repository.InvoiceRepositoryInterface;
+import com.mycompany.invoise.core.service.InvoiceServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+//import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+//@Service
 public class InvoiceServicePrefix implements InvoiceServiceInterface {
     @Autowired
     private InvoiceRepositoryInterface invoiceRepository;
@@ -46,12 +47,18 @@ public class InvoiceServicePrefix implements InvoiceServiceInterface {
     }
 
     @Override
-    public List<Invoice> getInvoiceList() {
-        return invoiceRepository.list();
+    public Iterable<Invoice> getInvoiceList() {
+        return invoiceRepository.findAll();
     }
 
-    public void createInvoice(Invoice invoice){
+    public Invoice createInvoice(Invoice invoice){
         invoice.setNumber(String.valueOf(prefix+(++lastNumber)));
-        invoiceRepository.create(invoice);
+        invoiceRepository.save(invoice);
+        return invoice;
+    }
+
+    @Override
+    public Invoice getInvoiceByNumber(String number) {
+        return invoiceRepository.findById(number).orElseThrow();
     }
 }
